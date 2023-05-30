@@ -33,7 +33,7 @@ public class Game {
     {
         for(int i=0;i<players.size();i++)
         {
-            if(players.get(i).position== board.cells.size())
+            if(players.get(i).getPosition()== board.getCells().size())
                 return players.get(i);
         }
         return null;
@@ -45,27 +45,29 @@ public class Game {
         {
             int player_number = getTurn();
             int number = dice.roll_dice();
-            if(number + players.get(player_number-1).position <= board.cells.size())
+            if(number + players.get(player_number-1).getPosition() <= board.getCells().size())
             {
-                players.get(player_number-1).position = players.get(player_number-1).position + number;
+                players.get(player_number-1).setPosition( players.get(player_number-1).getPosition() + number);
+
 
                 //check for snake affect
-                for(int i=0;i<board.snakes.size();i++)
+                for(int i=0;i<board.getSnakes().size();i++)
                 {
-                    if(board.snakes.get(i).start.number == players.get(player_number-1).position)
+                    if(board.getSnakes().get(i).start.getNumber() == players.get(player_number-1).getPosition())
                     {
-                        players.get(player_number-1).position = board.snakes.get(i).end.number;
+                        players.get(player_number-1).setPosition( board.getSnakes().get(i).end.getNumber());
+                        System.out.println(player_number-1 +" is affected by the snake");
                         break;
                     }
                 }
 
 
                 //check for ladder affect
-                for(int i=0;i<board.ladders.size();i++)
+                for(int i=0;i<board.getLadders().size();i++)
                 {
-                    if(board.ladders.get(i).start.number == players.get(player_number-1).position)
+                    if(board.getLadders().get(i).getStart().getNumber() == players.get(player_number-1).getPosition())
                     {
-                        players.get(player_number-1).position = board.ladders.get(i).end.number;
+                        players.get(player_number-1).setPosition( board.getLadders().get(i).getEnd().getNumber());
                         break;
                     }
                 }
@@ -73,6 +75,6 @@ public class Game {
             }
         }
         Player p = winner();
-        System.out.println("Winner of the game is "+ p.name);
+        System.out.println("Winner of the game is "+ p.getName());
     }
 }
